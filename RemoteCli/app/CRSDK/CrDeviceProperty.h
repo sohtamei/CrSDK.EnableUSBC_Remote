@@ -106,7 +106,8 @@ enum CrDevicePropertyCode : CrInt32u
 	CrDeviceProperty_DispModeSetting,
 	CrDeviceProperty_DispMode,
 	CrDeviceProperty_TouchOperation,
-	CrDeviceProperty_SelectFinder,
+	CrDeviceProperty_SelectFinderMonitor,
+	CrDeviceProperty_SelectFinder = CrDeviceProperty_SelectFinderMonitor, /* Do not use. Will be removed in the next release. */
 	CrDeviceProperty_AutoPowerOffTemperature,
 	CrDeviceProperty_BodyKeyLock,
 	CrDeviceProperty_ImageID_Num_Setting,
@@ -436,7 +437,8 @@ enum CrDevicePropertyCode : CrInt32u
 	CrDeviceProperty_ProtectImageInFTPTransfer,
 	CrDeviceProperty_MonitorBrightnessType,
 	CrDeviceProperty_MonitorBrightnessManual,
-	CrDeviceProperty_DisplayQualityFinder,
+	CrDeviceProperty_DisplayQualityFinderMonitor,
+	CrDeviceProperty_DisplayQualityFinder = CrDeviceProperty_DisplayQualityFinderMonitor, /* Do not use. Will be removed in the next release. */
 	CrDeviceProperty_TCUBDisplaySetting,
 	CrDeviceProperty_GammaDisplayAssist,
 	CrDeviceProperty_GammaDisplayAssistType,
@@ -641,6 +643,10 @@ enum CrDevicePropertyCode : CrInt32u
 	CrDeviceProperty_WindNoiseReductForExternalMic,
 	CrDeviceProperty_NoiseCutFilter,
 	CrDeviceProperty_NoiseCutFilterForExternalMic,
+	CrDeviceProperty_DualGain,
+	CrDeviceProperty_ImagerMode,
+	CrDeviceProperty_DisplayQualityForFinderOnly,
+	CrDeviceProperty_DisplayQualityForMonitorOnly,
 
 	CrDeviceProperty_S2 = 0x0500,
 	CrDeviceProperty_reserved10,
@@ -1366,6 +1372,9 @@ enum CrDRangeOptimizer : CrInt16u
 	CrDRangeOptimizer_Plus_Manual_3,
 	CrDRangeOptimizer_Plus_Manual_4,
 	CrDRangeOptimizer_Plus_Manual_5,
+	CrDRangeOptimizer_Plus_Manual_6,
+	CrDRangeOptimizer_Plus_Manual_7,
+	CrDRangeOptimizer_Plus_Manual_8,
 	CrDRangeOptimizer_Auto				= 0x0020,
 	CrDRangeOptimizer_HDR_Auto			= 0x0030,
 	CrDRangeOptimizer_HDR_10Ev,
@@ -1374,6 +1383,7 @@ enum CrDRangeOptimizer : CrInt16u
 	CrDRangeOptimizer_HDR_40Ev,
 	CrDRangeOptimizer_HDR_50Ev,
 	CrDRangeOptimizer_HDR_60Ev,
+	CrDRangeOptimizer_ExtendedOffset	= 0x0080,
 };
 
 // ImageSize
@@ -2022,6 +2032,7 @@ enum CrBodyKeyLock : CrInt8u
 	CrBodyKey_Lock,
 };
 
+// Do not use. Will be removed in the next release. Please use CrSelectFinderMonitor from now on.
 // Select Finder/Monitor
 enum CrSelectFinder : CrInt8u
 {
@@ -2029,6 +2040,15 @@ enum CrSelectFinder : CrInt8u
 	CrSelectFinder_ViewFinder_M,
 	CrSelectFinder_Monitor_M,
 	CrSelectFinder_Auto2,
+}; /* Do not use. Will be removed in the next release. */
+
+// Select Finder/Monitor
+enum CrSelectFinderMonitor : CrInt8u
+{
+	CrSelectFinderMonitor_Auto = 0x01,
+	CrSelectFinderMonitor_ViewFinder_M,
+	CrSelectFinderMonitor_Monitor_M,
+	CrSelectFinderMonitor_Auto2,
 };
 
 // Disp Mode
@@ -2458,7 +2478,7 @@ enum CrMovieRecButtonToggleEnableStatus : CrInt8u
     CrMovieRecButtonToggle_Enable,
 };
 
-// Do not use. Will be removed in the next release. Please use CrFaceEyeDetectionAF from now on.
+// Do not use. Will be removed in the next release. Please use CrSubjectRecognitionAF from now on.
 //// Face Eye Detection AF
 enum CrFaceEyeDetectionAF : CrInt8u
 {
@@ -4330,6 +4350,15 @@ enum CrDisplayQualityFinder : CrInt8u
 {
 	CrDisplayQualityFinder_Standard = 0x01,
 	CrDisplayQualityFinder_High,
+}; /* Do not use. Will be removed in the next release. */
+
+// Display Quality (Finder/Monitor)
+// Display Quality (Finder)
+// Display Quality (Monitor)
+enum CrDisplayQuality : CrInt8u
+{
+	CrDisplayQuality_Standard = 0x01,
+	CrDisplayQuality_High,
 };
 
 // TC/UB Display Setting
@@ -5638,6 +5667,23 @@ enum CrCompRAWShootingNumberOfSheets : CrInt16u
 	CrCompRAWShootingNumberOfSheets_Invalid = 0x0000,
 };
 
+// Elapsed Bulb Exposure Time
+// CrDataType_UInt32Range
+// Unit : sec
+// e.g.) 0x0000000A = 10 sec
+// This property is valid when CrDeviceProperty_BulbTimerSetting is CrBulbTimerSetting_Off.
+
+// Remaining Bulb Exposure Time
+// CrDataType_UInt16Range
+// Unit : sec
+// e.g.) 0x000A = 10 sec
+// This property is valid when CrDeviceProperty_BulbTimerSetting is CrBulbTimerSetting_On.
+
+// Remaining Noise Reduction Time
+// CrDataType_UInt32Range
+// Unit : sec
+// e.g.) 0x0000000A = 10 sec
+
 // Movie Rec Review Playing State
 enum CrMovieRecReviewPlayingState : CrInt8u
 {
@@ -5784,6 +5830,62 @@ enum CrPullPostViewImageStatus : CrInt32u
 	CrPullPostViewImageStatus_NotExists = 0x00000000,
 	CrPullPostViewImageStatus_Exists = 0x00000001,
 };
+
+// Dual Gain
+enum CrDualGain : CrInt8u
+{
+	CrDualGain_Off = 0x01,
+	CrDualGain_On,
+};
+
+// Imager Mode[bit0-7] : Imager Image Size
+enum CrImagerMode_ImagerImageSize : CrInt8u
+{
+	CrImagerMode_ImagerImageSize_FullFrame = 0x01,
+	CrImagerMode_ImagerImageSize_FullFrameCrop,
+	CrImagerMode_ImagerImageSize_Super35,
+	CrImagerMode_ImagerImageSize_Super35Crop,
+};
+
+// Imager Mode[bit8-23] : Imager Resolution
+// 100 times the real value
+// e.g.) 0x00BE(1.9K)
+//       0x0140(3.2K)
+//       0x017C(3.8K)
+//       0x0190(4K)
+//       0x01AF(4.3K)
+//       0x01C2(4.5K)
+//       0x01F4(5K)
+//       0x0244(5.8K)
+//       0x0258(6K)
+//       0x035C(8.6K)
+
+// Imager Mode[bit24-31] : Imager Aspect Ratio
+enum CrImagerMode_ImagerAspectRatio : CrInt8u
+{
+	CrImagerMode_ImagerAspectRatio_3_2 = 0x01,
+	CrImagerMode_ImagerAspectRatio_4_3,
+	CrImagerMode_ImagerAspectRatio_6_5,
+	CrImagerMode_ImagerAspectRatio_16_9,
+	CrImagerMode_ImagerAspectRatio_17_9,
+};
+
+// Imager Mode[bit32-63] : Reserve
+
+// Imager Mode
+#pragma pack(1)
+union CrImagerMode
+{
+	CrInt64u value;
+	struct
+	{
+		CrImagerMode_ImagerImageSize imagerImageSize;
+		CrInt16u imagerResolution;
+		CrImagerMode_ImagerAspectRatio imagerAspectRatio;
+		CrInt32u reserve;
+	} member;
+};
+#pragma pack()
 
 extern "C"
 SCRSDK_API
@@ -6598,6 +6700,7 @@ enum CrContentsFile_AudioCodec : CrInt32u
 {
 	CrContentsFile_AudioCodec_Unspecified = 0x00000000,
 	CrContentsFile_AudioCodec_LinearPcm,
+	CrContentsFile_AudioCodec_LinearPcmFloat,
 	CrContentsFile_AudioCodec_AacLc = 0x00000180,
 };
 

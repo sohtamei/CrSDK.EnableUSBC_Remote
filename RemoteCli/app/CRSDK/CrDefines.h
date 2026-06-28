@@ -129,6 +129,7 @@ namespace SCRSDK
 		CrCameraDeviceModel_ILCE_7M5,
 		CrCameraDeviceModel_PXW_Z300,
 		CrCameraDeviceModel_PXW_Z380,
+		CrCameraDeviceModel_ILCE_7RM6,
 	};
 
 	enum CrReconnectingSet : CrInt32u
@@ -215,16 +216,16 @@ namespace SCRSDK
 		CrMoviePlaybackDataType_Audio,
 	};
 
-	enum CrGeneralSettingControlType : CrInt32u
-	{
-		CrGeneralSettingControlType_CheckGeneralSettings = 0x00000001,
-		CrGeneralSettingControlType_SetOfGeneralSettings = 0x00000002,
-	};
-
 	enum CrMonitorUpdatedNotify : CrInt32u
 	{
 		CrMonitorUpdated_LiveView,
 		CrMonitorUpdated_OSD,
+	};
+
+	enum CrGeneralSettingControlType : CrInt32u
+	{
+		CrGeneralSettingControlType_CheckGeneralSettings = 0x00000001,
+		CrGeneralSettingControlType_SetOfGeneralSettings = 0x00000002,
 	};
 
 	enum CrPostViewTransferringType : CrInt32u
@@ -233,6 +234,7 @@ namespace SCRSDK
 		CrPostViewTransferring_UserSelect_File = 0x00008000, // Output to File. Callback to notify : OnNotifyPostViewImage
 		CrPostViewTransferring_UserSelect_RAM  = 0x00008001, // Transfer via RAM. Callback to notify : OnNotifyPostViewImage
 	};
+
 
 	static const CrInt32u CrREMOTETRANSFER_PARTIAL_FILE_SIZE_MIN = 0x00000001; // 1B;
 	static const CrInt32u CrREMOTETRANSFER_PARTIAL_FILE_SIZE_MAX = 0x7FFFFFFF; // 2GB - 1;

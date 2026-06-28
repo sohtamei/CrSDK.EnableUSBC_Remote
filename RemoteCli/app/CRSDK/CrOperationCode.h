@@ -2,6 +2,7 @@
 #define CROPERATIONCODE_H
 
 #include "CrTypes.h"
+#include "CrDefines.h"
 #include <memory>
 #include <vector>
 
@@ -68,6 +69,8 @@ private:
 	CrInt8u* licenseId;
 };
 #pragma pack()
+
+
 #pragma pack(1)
 class SCRSDK_API CrLicenseInfoList : public CrOperationResultData
 {
@@ -86,6 +89,7 @@ private:
 	CrInt8u  listNum;
 };
 #pragma pack()
+
 
 }
 #endif // CROPERATIONCODE_H
